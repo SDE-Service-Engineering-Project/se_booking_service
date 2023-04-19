@@ -1,0 +1,22 @@
+# Connection
+spring:
+  kafka:
+    jaas:
+      enabled: true
+      login-module: org.apache.kafka.common.security.plain.PlainLoginModule
+      options:
+        username: ${KAFKA_USERNAME}
+        password: ${KAFKA_API_TOKEN}
+    bootstrap-servers: ${KAFKA_SERVERS}
+    properties:
+      security:
+        protocol: SASL_SSL
+      sasl:
+        mechanism: PLAIN
+    # Producer
+    template:
+      default-topic: bookings
+    producer:
+      client-id: se-booking-service
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
