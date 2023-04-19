@@ -165,8 +165,9 @@
                 </executions>
                 <configuration>
                     <excludes>
-                        <exclude>at/ac/fhcampuswien/car_rental/soap/**/*</exclude>
-                        <exclude>at/ac/fhcampuswien/car_rental/mapper/**/*</exclude>
+                        <exclude>at/ac/fhcampuswien/**/SeBookingServiceApplication.class</exclude>
+                        <exclude>**/entity/*</exclude>
+                        <exclude>**/config/*</exclude>
                     </excludes>
                 </configuration>
             </plugin>
