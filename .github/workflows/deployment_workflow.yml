@@ -16,10 +16,9 @@ env:
   IKS_CLUSTER: ${{ secrets.IKS_CLUSTER }} # name or id of cluster
   DEPLOYMENT_NAME: se-booking-service-part2 # ADAPT!
   INTERNAL_PORT: 8080 # ADAPT!
-  EXTERNAL_PORT: 32769 # ADAPT!
+  EXTERNAL_PORT: 30069 # ADAPT!
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-  CURRENCY_CONVERTER_URL: http://169.51.206.49:32767/?wsdl
   MONGO_URI: ${{ secrets.MONGO_URI }}
   KAFKA_SERVERS: ${{ secrets.KAFKA_SERVERS }}
   KAFKA_USERNAME: ${{ secrets.KAFKA_USERNAME }}
@@ -51,7 +50,7 @@ jobs:
           distribution: 'temurin'
       # Build with maven
       - name: Build with Maven
-        run: mvn -DCURRENCY_CONVERTER_URL=${CURRENCY_CONVERTER_URL} --file=pom.xml --batch-mode --update-snapshots clean install
+        run: mvn --file=pom.xml --batch-mode --update-snapshots clean install
       # Build docker image
       - name: Build with Docker
         run: |
@@ -72,7 +71,7 @@ jobs:
           kubectl create namespace $K8S_NAMESPACE --dry-run=client -o yaml > namespace.yaml
           kubectl apply -f namespace.yaml
           kubectl config set-context --current --namespace=$K8S_NAMESPACE
-          kubectl create configmap $DEPLOYMENT_NAME --from-literal=CURRENCY_CONVERTER_URL=${CURRENCY_CONVERTER_URL} --from-literal=POSTGRES_SERVICE_NAME=${POSTGRES_SERVICE_NAME} --dry-run -o yaml > configmap.yaml
+          kubectl create configmap $DEPLOYMENT_NAME --dry-run -o yaml > configmap.yaml
           kubectl apply -f configmap.yaml
           kubectl create deployment $DEPLOYMENT_NAME --image="$DOCKER_USER"/"$IMAGE_NAME":"$GITHUB_SHA" --dry-run -o yaml > deployment.yaml
           kubectl apply -f deployment.yaml
