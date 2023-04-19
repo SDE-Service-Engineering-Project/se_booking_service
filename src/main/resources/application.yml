@@ -1,0 +1,5 @@
+spring:
+  config:
+    import:
+      - kafka/kafka-config.yml
+      - mongodb/mongodb-config.yml
