@@ -71,7 +71,7 @@ jobs:
           kubectl create namespace $K8S_NAMESPACE --dry-run=client -o yaml > namespace.yaml
           kubectl apply -f namespace.yaml
           kubectl config set-context --current --namespace=$K8S_NAMESPACE
-          kubectl create configmap $DEPLOYMENT_NAME --dry-run -o yaml > configmap.yaml
+          kubectl create configmap $DEPLOYMENT_NAME --from-literal=MONGO_URI=${MONGO_URI} --from-literal=KAFKA_SERVERS=${KAFKA_SERVERS} --from-literal=KAFKA_USERNAME=${KAFKA_USERNAME} --from-literal=KAFKA_API_TOKEN=${KAFKA_API_TOKEN} --dry-run -o yaml > configmap.yaml
           kubectl apply -f configmap.yaml
           kubectl create deployment $DEPLOYMENT_NAME --image="$DOCKER_USER"/"$IMAGE_NAME":"$GITHUB_SHA" --dry-run -o yaml > deployment.yaml
           kubectl apply -f deployment.yaml
