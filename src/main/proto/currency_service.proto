@@ -1,4 +1,6 @@
 syntax = "proto3";
+option java_multiple_files = true;
+package at.ac.fhcampuswien.se_booking.prototest; // TODO: adapt to correct package
 
 service CurrencyConversion {
   rpc Convert (ConversionRequest) returns (ConversionResponse) {}
