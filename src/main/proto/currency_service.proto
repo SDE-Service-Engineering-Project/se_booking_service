@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+service CurrencyConversion {
+  rpc Convert (ConversionRequest) returns (ConversionResponse) {}
+  rpc GetCurrencies (CurrencyRequest) returns (CurrencyResponse) {}
+}
+
+
+message ConversionRequest {
+  string from_currency = 1;
+  string to_currency = 2;
+  double amount = 3;
+}
+
+message ConversionResponse {
+  double amount = 3;
+}
+
+message CurrencyResponse {
+  repeated Currency currencies = 1;
+}
+
+message CurrencyRequest {
+}
+
+message Currency {
+  string name = 1;
+}
