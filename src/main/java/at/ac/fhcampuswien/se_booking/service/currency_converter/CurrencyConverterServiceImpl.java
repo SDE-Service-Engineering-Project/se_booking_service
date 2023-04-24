@@ -31,11 +31,7 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
     @Override
     public CurrencyDTO getAllCurrencies() throws InterruptedException {
         try {
-            List<String> currencies = new ArrayList<>();
-            currencies.add("EUR");
-            currencyClient.getCurrencies();
-            return new CurrencyDTO(currencies);
-//            return currencyClient.getCurrencies();
+            return currencyClient.getCurrencies();
         } catch (Exception e) {
             logger.warning(e.getMessage());
         } finally {

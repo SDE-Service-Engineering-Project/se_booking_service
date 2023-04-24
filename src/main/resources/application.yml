@@ -3,6 +3,7 @@ spring:
     import:
       - kafka/kafka-config.yml
       - mongodb/mongodb-config.yml
+      - grpc/grpc-config.yml
 
 car_service:
   url: 'http://se-car-service-part2/api/v1/'
