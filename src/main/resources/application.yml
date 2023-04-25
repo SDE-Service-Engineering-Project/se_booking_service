@@ -3,3 +3,9 @@ spring:
     import:
       - kafka/kafka-config.yml
       - mongodb/mongodb-config.yml
+
+car_rental:
+  url: 'http://169.51.206.49:32001/'
+
+currency-converter:
+  default-currency: 'USD'
