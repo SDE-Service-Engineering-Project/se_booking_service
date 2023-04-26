@@ -1,16 +1,20 @@
-package at.ac.fhcampuswien.se_booking.service.currency_converter;
+package at.ac.fhcampuswien.se_booking.grpc_clients;
 
 import at.ac.fhcampuswien.se_booking.dto.currency.CurrencyDTO;
+import at.ac.fhcampuswien.se_booking.service.currency_converter.*;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.StatusRuntimeException;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
 @Component
+@Log4j2
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CurrencyClient {
 
@@ -24,24 +28,25 @@ public class CurrencyClient {
         this.blockingStub = CurrencyConversionGrpc.newBlockingStub(channel);
     }
 
-    public Double convert(String fromCurrency, String toCurrency, Double amount) {
+    public CurrencyDTO getCurrencies() throws StatusRuntimeException {
+        CurrencyRequest request = CurrencyRequest.newBuilder().build();
+        CurrencyResponse response = blockingStub.getCurrencies(request);
+        return new CurrencyDTO(response.getCurrenciesList().stream().map(Currency::getName).toList());
+    }
+
+    public Float convert(String fromCurrency, String toCurrency, Float amount) throws StatusRuntimeException {
         ConversionRequest request = ConversionRequest.newBuilder()
                 .setFromCurrency(fromCurrency)
                 .setToCurrency(toCurrency)
                 .setAmount(amount)
                 .build();
         ConversionResponse response = blockingStub.convert(request);
-        return response.getAmount();
+        return (float) response.getAmount();
     }
 
-    public CurrencyDTO getCurrencies() {
-        CurrencyRequest request = CurrencyRequest.newBuilder().build();
-        CurrencyResponse response = blockingStub.getCurrencies(request);
-        return new CurrencyDTO(response.getCurrenciesList().stream().map(Currency::getName).toList());
-    }
 
-    public void shutdown() throws InterruptedException {
-        channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
-    }
+//    public void shutdown() throws InterruptedException {
+//        channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
+//    }
 
 }
