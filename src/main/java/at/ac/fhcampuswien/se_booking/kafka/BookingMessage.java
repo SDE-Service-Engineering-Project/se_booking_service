@@ -12,13 +12,13 @@ import lombok.experimental.FieldDefaults;
 @EqualsAndHashCode
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BookingMessage {
-    @JsonProperty("_id")
+    @JsonProperty("bookingId")
     String id;
     @JsonProperty("carId")
     String carId;
-    @JsonProperty("startDate")
+    @JsonProperty("bookedFrom")
     Long startDate;
-    @JsonProperty("endDate")
+    @JsonProperty("bookedUntil")
     Long endDate;
     @JsonProperty("action")
     String action;
