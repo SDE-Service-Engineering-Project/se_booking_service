@@ -1,8 +1,6 @@
 package at.ac.fhcampuswien.se_booking.controller;
 
-import at.ac.fhcampuswien.se_booking.client.CarServiceClient;
 import at.ac.fhcampuswien.se_booking.dto.BookingDTO;
-import at.ac.fhcampuswien.se_booking.dto.CarDTO;
 import at.ac.fhcampuswien.se_booking.dto.CreateBookingDTO;
 import at.ac.fhcampuswien.se_booking.dto.CreateBookingResponseDTO;
 import at.ac.fhcampuswien.se_booking.service.BookingService;
@@ -28,35 +26,29 @@ import java.util.Objects;
 @Log4j2
 public class BookingController {
     BookingService bookingService;
-    CarServiceClient carServiceClient;
     @Operation(summary = "Get all Bookings associated with the user")
     @GetMapping
-    public ResponseEntity<List<BookingDTO>> getMyBookings(@RequestParam Long userId) {
-        return ResponseEntity.ok(bookingService.getMyBookings(userId));
+    public ResponseEntity<List<BookingDTO>> getMyBookings(@RequestHeader("X-USERNAME") String username) {
+        return ResponseEntity.ok(bookingService.getMyBookings(username));
     }
 
     @Operation(summary = "Get a Booking by Id")
     @GetMapping("/{bookingId}")
-    public ResponseEntity<BookingDTO> getBookingById(@PathVariable String bookingId) {
-        return ResponseEntity.ok(bookingService.getBookingById(bookingId));
+    public ResponseEntity<BookingDTO> getBookingById(@PathVariable String bookingId, @RequestHeader("X-USERNAME") String username) {
+        return ResponseEntity.ok(bookingService.getBookingById(bookingId, username));
     }
 
     @Operation(summary = "Create a Booking")
     @PostMapping
-    public ResponseEntity<CreateBookingResponseDTO> createBooking(@Valid @RequestBody CreateBookingDTO createBookingDTO) {
+    public ResponseEntity<CreateBookingResponseDTO> createBooking(@Valid @RequestBody CreateBookingDTO createBookingDTO, @RequestHeader("X-USERNAME") String username) {
         LocalDateUtils.validateTimespan(Objects.requireNonNullElse(createBookingDTO.bookedFrom(), LocalDate.now()), createBookingDTO.bookedUntil());
-        return new ResponseEntity<>(bookingService.createBooking(createBookingDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(bookingService.createBooking(createBookingDTO, username), HttpStatus.CREATED);
     }
 
     @Operation(summary = "Expire a Booking")
     @PatchMapping("/{bookingId}")
-    public ResponseEntity<Void> expireBooking(@PathVariable String bookingId) {
-        bookingService.expireBooking(bookingId);
+    public ResponseEntity<Void> expireBooking(@PathVariable String bookingId, @RequestHeader("X-USERNAME") String username) {
+        bookingService.expireBooking(bookingId, username);
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @GetMapping("/test")
-    public ResponseEntity<CarDTO> getCarById() {
-        return new ResponseEntity<>(carServiceClient.getCarById("643ad77b5dd2e99a5b2fd2f8"), HttpStatus.OK);
     }
 }

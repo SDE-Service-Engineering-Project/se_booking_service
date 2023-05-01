@@ -14,6 +14,6 @@ public record BookingDTO(
         Float priceSaved,
         String currencySaved,
         CarDTO car,
-        Long userId
+        String username
 ) {
 }

@@ -7,6 +7,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
 public interface BookingRepository extends MongoRepository<BookingItem, String> {
-    List<BookingItem> findAllByUserIdEquals(Long userId);
+    List<BookingItem> findAllByUsername(String username);
     List<BookingItem> findAllByCarIdEqualsAndBookingStatusIn(String carId, List<BookingStatus> bookingStatus);
 }

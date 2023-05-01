@@ -13,6 +13,6 @@ public record CreateBookingResponseDTO(
         Float priceSaved,
         String currencySaved,
         String carId,
-        Long userId
+        String username
 ) {
 }

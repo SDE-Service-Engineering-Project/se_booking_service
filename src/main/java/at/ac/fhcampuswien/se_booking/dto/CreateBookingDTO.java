@@ -12,8 +12,6 @@ public record CreateBookingDTO(
         Long daysToRent,
         @NotNull(message = "No car id provided!")
         String carId,
-        String currency,
-        @NotNull(message = "No username provided!")
-        Long userId
+        String currency
 ) {
 }

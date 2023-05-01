@@ -8,8 +8,8 @@ import at.ac.fhcampuswien.se_booking.dto.CreateBookingResponseDTO;
 import java.util.List;
 
 public interface BookingService {
-    List<BookingDTO> getMyBookings(Long userId);
-    BookingDTO getBookingById(String bookingId);
-    CreateBookingResponseDTO createBooking(CreateBookingDTO createBookingDTO);
-    void expireBooking(String bookingId);
+    List<BookingDTO> getMyBookings(String username);
+    BookingDTO getBookingById(String bookingId, String username);
+    CreateBookingResponseDTO createBooking(CreateBookingDTO createBookingDTO, String username);
+    void expireBooking(String bookingId, String username);
 }

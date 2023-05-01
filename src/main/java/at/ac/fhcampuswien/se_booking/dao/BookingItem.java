@@ -22,5 +22,5 @@ public class BookingItem {
     BigDecimal priceSaved;
     String currencySaved;
     String carId;
-    Long userId;
+    String username;
 }

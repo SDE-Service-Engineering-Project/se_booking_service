@@ -4,7 +4,9 @@ import lombok.experimental.UtilityClass;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.*;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 @UtilityClass
 public class LocalDateUtils {
@@ -29,5 +31,10 @@ public class LocalDateUtils {
             return false;
         }
         return compareToDate.isBefore(date) || compareToDate.isEqual(date);
+    }
+
+    public long toEpochMillis(LocalDate date) {
+        Instant instant = date.atStartOfDay(ZoneId.of("Europe/Vienna")).toInstant();
+        return instant.toEpochMilli();
     }
 }

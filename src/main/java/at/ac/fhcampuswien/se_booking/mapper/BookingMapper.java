@@ -26,8 +26,8 @@ public abstract class BookingMapper {
     @Mapping(target = "currency", source = "bookingItem.currency")
     @Mapping(target = "priceSaved", source = "bookingItem.priceSaved")
     @Mapping(target = "currencySaved", source = "bookingItem.currencySaved")
-    @Mapping(target = "userId", source = "bookingItem.userId")
-    public abstract BookingDTO toDto(BookingItem bookingItem, CarDTO car);
+    @Mapping(target = "username", source = "username")
+    public abstract BookingDTO toDto(BookingItem bookingItem, CarDTO car, String username);
 
     @Mapping(target = "bookingStatus", source = "bookingStatus")
     @Mapping(target = "createdOn", expression = "java(LocalDateTime.now())")
@@ -36,8 +36,8 @@ public abstract class BookingMapper {
     @Mapping(target = "currency", source = "defaultCurrency")
     @Mapping(target = "priceSaved", source = "priceSaved")
     @Mapping(target = "currencySaved", expression = "java(Objects.requireNonNullElse(dto.currency(), defaultCurrency))")
-    @Mapping(target = "userId", source = "userId")
-    public abstract BookingItem toItem(CreateBookingDTO dto, Long userId, BigDecimal price, String defaultCurrency, BigDecimal priceSaved, String currencySaved, BookingStatus bookingStatus);
+    @Mapping(target = "username", source = "username")
+    public abstract BookingItem toItem(CreateBookingDTO dto, String username, BigDecimal price, String defaultCurrency, BigDecimal priceSaved, String currencySaved, BookingStatus bookingStatus);
 
     @Mapping(target = "bookingId", source = "id")
     @Mapping(target = "bookedFrom", source = "bookedFrom")
