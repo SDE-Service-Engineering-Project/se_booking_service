@@ -5,7 +5,7 @@ spring:
       - mongodb/mongodb-config.yml
 
 car_service:
-  url: 'http://se-car-service-part2/'
+  url: 'http://se-car-service-part2/api/v1/'
 
 currency-converter:
   default-currency: 'USD'
