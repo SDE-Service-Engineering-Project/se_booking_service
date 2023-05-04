@@ -8,6 +8,8 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 @UtilityClass
 public class LocalDateUtils {
 
@@ -36,5 +38,9 @@ public class LocalDateUtils {
     public long toEpochMillis(LocalDate date) {
         Instant instant = date.atStartOfDay(ZoneId.of("Europe/Vienna")).toInstant();
         return instant.toEpochMilli();
+    }
+
+    public long calculateDaysBetween(LocalDate start, LocalDate end) {
+        return DAYS.between(start, end) + 1;
     }
 }

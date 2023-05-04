@@ -4,7 +4,7 @@ spring:
       - kafka/kafka-config.yml
       - mongodb/mongodb-config.yml
 
-car_rental:
+car_service:
   url: 'http://se-car-service-part2/'
 
 currency-converter:

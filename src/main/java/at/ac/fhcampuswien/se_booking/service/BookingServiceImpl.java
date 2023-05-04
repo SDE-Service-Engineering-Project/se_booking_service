@@ -27,6 +27,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -72,7 +73,9 @@ public class BookingServiceImpl implements BookingService {
         BookingItem entity = bookingMapper.toItem(
                 createBookingDTO,
                 username,
-                BigDecimal.valueOf(car.price() * createBookingDTO.daysToRent()).setScale(2, RoundingMode.HALF_UP),
+                BigDecimal.valueOf(
+                        car.price() * LocalDateUtils.calculateDaysBetween(Objects.requireNonNullElse(createBookingDTO.bookedFrom(), LocalDate.now()), createBookingDTO.bookedUntil())
+                ).setScale(2, RoundingMode.HALF_UP),
                 defaultCurrency,
                 // TODO Calculate Saved Pricing - gRPC! For now we save "null"
                 null,
