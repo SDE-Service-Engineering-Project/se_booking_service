@@ -3,3 +3,9 @@ spring:
     import:
       - kafka/kafka-config.yml
       - mongodb/mongodb-config.yml
+
+car_service:
+  url: 'http://se-car-service-part2/'
+
+currency-converter:
+  default-currency: 'USD'
