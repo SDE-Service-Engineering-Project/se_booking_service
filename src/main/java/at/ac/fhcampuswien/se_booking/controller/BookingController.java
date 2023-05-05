@@ -27,7 +27,7 @@ import java.util.Objects;
 public class BookingController {
     BookingService bookingService;
     @Operation(summary = "Get all Bookings associated with the user")
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<List<BookingDTO>> getMyBookings(@RequestHeader("X-USERNAME") String username) {
         return ResponseEntity.ok(bookingService.getMyBookings(username));
     }
@@ -39,7 +39,7 @@ public class BookingController {
     }
 
     @Operation(summary = "Create a Booking")
-    @PostMapping
+    @PostMapping("/")
     public ResponseEntity<CreateBookingResponseDTO> createBooking(@Valid @RequestBody CreateBookingDTO createBookingDTO, @RequestHeader("X-USERNAME") String username) {
         LocalDateUtils.validateTimespan(Objects.requireNonNullElse(createBookingDTO.bookedFrom(), LocalDate.now()), createBookingDTO.bookedUntil());
         return new ResponseEntity<>(bookingService.createBooking(createBookingDTO, username), HttpStatus.CREATED);
