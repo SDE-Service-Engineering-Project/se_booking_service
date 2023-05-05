@@ -1,4 +1,4 @@
-package at.ac.fhcampuswien.se_booking.service;
+package at.ac.fhcampuswien.se_booking.service.booking;
 
 
 import at.ac.fhcampuswien.se_booking.dto.BookingDTO;

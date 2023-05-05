@@ -11,18 +11,15 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.TimeUnit;
-
 @Component
 @Log4j2
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CurrencyClient {
 
-    private final ManagedChannel channel;
     private final CurrencyConversionGrpc.CurrencyConversionBlockingStub blockingStub;
 
     public CurrencyClient(@Value("${grpc.hostname}") String host, @Value("${grpc.port}") int port) {
-        this.channel = ManagedChannelBuilder.forAddress(host, port)
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(host, port)
                 .usePlaintext()
                 .build();
         this.blockingStub = CurrencyConversionGrpc.newBlockingStub(channel);
@@ -43,10 +40,5 @@ public class CurrencyClient {
         ConversionResponse response = blockingStub.convert(request);
         return (float) response.getAmount();
     }
-
-
-//    public void shutdown() throws InterruptedException {
-//        channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
-//    }
 
 }

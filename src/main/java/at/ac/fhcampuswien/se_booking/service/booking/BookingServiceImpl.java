@@ -1,4 +1,4 @@
-package at.ac.fhcampuswien.se_booking.service;
+package at.ac.fhcampuswien.se_booking.service.booking;
 
 import at.ac.fhcampuswien.se_booking.client.CarServiceClient;
 import at.ac.fhcampuswien.se_booking.dao.BookingItem;
@@ -11,6 +11,7 @@ import at.ac.fhcampuswien.se_booking.kafka.BookingAction;
 import at.ac.fhcampuswien.se_booking.kafka.BookingMessage;
 import at.ac.fhcampuswien.se_booking.mapper.BookingMapper;
 import at.ac.fhcampuswien.se_booking.repository.BookingRepository;
+import at.ac.fhcampuswien.se_booking.service.currency_converter.CurrencyConverterService;
 import at.ac.fhcampuswien.se_booking.utils.LocalDateUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
@@ -41,6 +43,7 @@ public class BookingServiceImpl implements BookingService {
     final BookingMapper bookingMapper;
     final CarServiceClient carServiceClient;
     final KafkaTemplate<String, BookingMessage> kafkaTemplate;
+    final CurrencyConverterService currencyConverterService;
 
     @Override
     @Transactional(readOnly = true)
@@ -77,8 +80,7 @@ public class BookingServiceImpl implements BookingService {
                         car.price() * LocalDateUtils.calculateDaysBetween(Objects.requireNonNullElse(createBookingDTO.bookedFrom(), LocalDate.now()), createBookingDTO.bookedUntil())
                 ).setScale(2, RoundingMode.HALF_UP),
                 defaultCurrency,
-                // TODO Calculate Saved Pricing - gRPC! For now we save "null"
-                null,
+                calculateSavedPricing(createBookingDTO, car.price()),
                 createBookingDTO.currency(),
                 createBookingDTO.bookedFrom().isAfter(LocalDate.now()) ? BookingStatus.PENDING : BookingStatus.BOOKED
         );
@@ -169,5 +171,16 @@ public class BookingServiceImpl implements BookingService {
                         .action(action.toString())
                         .build()
         );
+    }
+
+    private BigDecimal calculateSavedPricing(CreateBookingDTO bookingDTO, float price) {
+        if (StringUtils.hasText(bookingDTO.currency()) && !bookingDTO.currency().equals(defaultCurrency)) {
+            return BigDecimal.valueOf(
+                    currencyConverterService.convert(price, defaultCurrency, bookingDTO.currency()).amount() *
+                            LocalDateUtils.calculateDaysBetween(Objects.requireNonNullElse(bookingDTO.bookedFrom(), LocalDate.now()), bookingDTO.bookedUntil())
+            );
+        }
+
+        return null;
     }
 }
