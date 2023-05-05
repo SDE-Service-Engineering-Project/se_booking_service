@@ -28,7 +28,7 @@ public class CurrencyController {
 
     @Operation(summary = "Convert from one currency to another")
     @GetMapping("/convert")
-    public ResponseEntity<ConvertResultDTO> convert(@RequestParam Float amount, @RequestParam String fromCurrency, @RequestParam String toCurrency) throws InterruptedException {
+    public ResponseEntity<ConvertResultDTO> convert(@RequestParam Float amount, @RequestParam String fromCurrency, @RequestParam String toCurrency) {
         return ResponseEntity.ok(currencyConverterService.convert(amount, fromCurrency, toCurrency));
     }
 
