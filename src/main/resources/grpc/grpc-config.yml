@@ -1,4 +1,4 @@
 # Connection
 grpc:
-  hostname: ${GRPC_HOSTNAME}
-  port: ${GRPC_PORT}
+  hostname: se-currency-converter-part2
+  port: 32760
