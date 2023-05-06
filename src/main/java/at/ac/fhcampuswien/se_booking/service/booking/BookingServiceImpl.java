@@ -67,8 +67,6 @@ public class BookingServiceImpl implements BookingService {
     @Override
     @Transactional
     public CreateBookingResponseDTO createBooking(CreateBookingDTO createBookingDTO, String username) {
-        // TODO: Check if Car with the Id exists (on car_rental_service)
-
         CarDTO car = carServiceClient.getCarById(createBookingDTO.carId());
         assertCarIsNotBooked(createBookingDTO);
 
