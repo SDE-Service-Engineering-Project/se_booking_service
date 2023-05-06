@@ -51,7 +51,7 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
     @Override
     public ConvertResultDTO convertCarPrice(ConvertCarPriceDTO convertCarPriceDTO) {
         try {
-            CarDTO car = carServiceClient.getCarById(convertCarPriceDTO.carId().toString());
+            CarDTO car = carServiceClient.getCarById(convertCarPriceDTO.carId());
             return convert(
                     car.price(), car.currency(), convertCarPriceDTO.toCurrency()
             );
