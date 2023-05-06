@@ -121,7 +121,7 @@ public class BookingServiceImpl implements BookingService {
                 bookingItem.getCarId(),
                 LocalDateUtils.toEpochMillis(bookingItem.getBookedFrom()),
                 LocalDateUtils.toEpochMillis(bookingItem.getBookedUntil()),
-                BookingAction.DELETE
+                BookingAction.UPDATE
         );
 
         bookingRepository.save(bookingItem);
