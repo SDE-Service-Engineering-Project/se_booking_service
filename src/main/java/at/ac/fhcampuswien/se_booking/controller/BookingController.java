@@ -3,7 +3,7 @@ package at.ac.fhcampuswien.se_booking.controller;
 import at.ac.fhcampuswien.se_booking.dto.BookingDTO;
 import at.ac.fhcampuswien.se_booking.dto.CreateBookingDTO;
 import at.ac.fhcampuswien.se_booking.dto.CreateBookingResponseDTO;
-import at.ac.fhcampuswien.se_booking.service.BookingService;
+import at.ac.fhcampuswien.se_booking.service.booking.BookingService;
 import at.ac.fhcampuswien.se_booking.utils.LocalDateUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;

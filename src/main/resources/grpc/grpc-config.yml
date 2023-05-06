@@ -1,0 +1,4 @@
+# Connection
+grpc:
+  hostname: ${GRPC_HOSTNAME}
+  port: ${GRPC_PORT}
