@@ -11,7 +11,7 @@ import at.ac.fhcampuswien.se_booking.kafka.BookingAction;
 import at.ac.fhcampuswien.se_booking.kafka.BookingMessage;
 import at.ac.fhcampuswien.se_booking.mapper.BookingMapper;
 import at.ac.fhcampuswien.se_booking.repository.BookingRepository;
-import at.ac.fhcampuswien.se_booking.service.currency_converter.CurrencyConverterService;
+import at.ac.fhcampuswien.se_booking.service.currency.CurrencyConverterService;
 import at.ac.fhcampuswien.se_booking.utils.LocalDateUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

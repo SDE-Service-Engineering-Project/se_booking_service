@@ -3,7 +3,7 @@ package at.ac.fhcampuswien.se_booking.controller;
 import at.ac.fhcampuswien.se_booking.dto.currency.ConvertCarPriceDTO;
 import at.ac.fhcampuswien.se_booking.dto.currency.ConvertResultDTO;
 import at.ac.fhcampuswien.se_booking.dto.currency.CurrencyDTO;
-import at.ac.fhcampuswien.se_booking.service.currency_converter.CurrencyConverterService;
+import at.ac.fhcampuswien.se_booking.service.currency.CurrencyConverterService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

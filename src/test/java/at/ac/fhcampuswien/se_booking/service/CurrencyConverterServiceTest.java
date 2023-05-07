@@ -6,8 +6,10 @@ import at.ac.fhcampuswien.se_booking.dto.currency.ConvertCarPriceDTO;
 import at.ac.fhcampuswien.se_booking.dto.currency.ConvertResultDTO;
 import at.ac.fhcampuswien.se_booking.dto.currency.CurrencyDTO;
 import at.ac.fhcampuswien.se_booking.grpc_clients.CurrencyClient;
-import at.ac.fhcampuswien.se_booking.service.currency_converter.CurrencyConverterServiceImpl;
+import at.ac.fhcampuswien.se_booking.service.currency.CurrencyConverterServiceImpl;
 import at.ac.fhcampuswien.se_booking.utils.Utils;
+import feign.RetryableException;
+import io.grpc.Metadata;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import io.grpc.testing.GrpcCleanupRule;
@@ -24,7 +26,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -58,7 +59,7 @@ class CurrencyConverterServiceTest {
     }
 
     @Test
-    void should_throw_error_if_something_wrong() {
+    void should_throw_error_if_conversion_fails() {
         Float amount = 200.0f;
         String fromCurrency = "USD";
         String toCurrency = "EU";
@@ -71,6 +72,19 @@ class CurrencyConverterServiceTest {
         Assertions.assertThrows(
                 ResponseStatusException.class, () -> {
                     currencyConverterService.convert(amount, fromCurrency, toCurrency);
+                }
+        );
+    }
+
+    @Test
+    void should_throw_error_if_get_all_currencies_fails() {
+        StatusRuntimeException exception = new StatusRuntimeException(Status.NOT_FOUND);
+
+        Mockito.when(currencyClient.getCurrencies()).thenThrow(exception);
+
+        Assertions.assertThrows(
+                ResponseStatusException.class, () -> {
+                    currencyConverterService.getAllCurrencies();
                 }
         );
     }
@@ -107,7 +121,7 @@ class CurrencyConverterServiceTest {
         ConvertCarPriceDTO convertCarPriceDTO = new ConvertCarPriceDTO("0", "EUR");
 
         Mockito.when(carServiceClient.getCarById(convertCarPriceDTO.carId()))
-                .thenThrow(ResponseStatusException.class);
+                .thenThrow(RetryableException.class);
 
 
         Assertions.assertThrows(
