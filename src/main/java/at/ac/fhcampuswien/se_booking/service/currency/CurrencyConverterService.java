@@ -1,4 +1,4 @@
-package at.ac.fhcampuswien.se_booking.service.currency_converter;
+package at.ac.fhcampuswien.se_booking.service.currency;
 
 import at.ac.fhcampuswien.se_booking.dto.currency.ConvertCarPriceDTO;
 import at.ac.fhcampuswien.se_booking.dto.currency.ConvertResultDTO;
